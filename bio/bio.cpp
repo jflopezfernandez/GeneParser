@@ -1,16 +1,24 @@
 
 #include "Bio.h"
 
-void TopLevelExceptionHandler()
+enum class Nucleotides
 {
-	std::cerr << "\n[ERROR]: Fatal exception. Application terminating.\n\n";
-}
+	Guanine,
+	Adenine,
+	Thymine,
+	Cytosine,
+	Uracil
+};
 
 int main(int argc, char* argv[])
 {
-	const auto StandardExceptionHandler = std::set_terminate(TopLevelExceptionHandler);
-
 	if (argc == 1) { return EXIT_SUCCESS; }
+
+	uint64_t GuanineCount = 0;
+	uint64_t AdenineCount = 0;
+	uint64_t ThymineCount = 0;
+	uint64_t CytosineCount = 0;
+	uint64_t UracilCount = 0;
 
 	const auto StartTime = std::chrono::system_clock::now();
 
@@ -67,6 +75,41 @@ int main(int argc, char* argv[])
 					// Ignore numbers
 				} break;
 
+				case 'A':
+				case 'a':
+				{
+					++AdenineCount;
+					std::cout << head;
+				} break;
+
+				case 'C':
+				case 'c':
+				{
+					++CytosineCount;
+					std::cout << head;
+				} break;
+
+				case 'G':
+				case 'g':
+				{
+					++GuanineCount;
+					std::cout << head;
+				} break;
+
+				case 'T':
+				case 't':
+				{
+					++ThymineCount;
+					std::cout << head;
+				} break;
+
+				case 'U':
+				case 'u':
+				{
+					++UracilCount;
+					std::cout << head;
+				} break;
+
 				case '>':
 				{
 					metadataLine = true;
@@ -105,8 +148,38 @@ int main(int argc, char* argv[])
 
 	const auto ElapsedTime = EndTime - StartTime;
 
+	std::cout.imbue(std::locale("en_US"));
+
 	std::cout << "\n\n\n";
 	std::cout << "********************************************************************************\n";
+	std::cout << "*\n";
+	
+	std::cout << "* Adenine Monomers:  ";
+	auto& a = std::use_facet<std::num_put<char>>(std::cout.getloc());
+	a.put(std::ostreambuf_iterator<char>(std::cout), std::cout, ' ', AdenineCount);
+	std::cout << "\n";
+
+	std::cout << "* Cytosine Monomers: ";
+	auto& c = std::use_facet<std::num_put<char>>(std::cout.getloc());
+	c.put(std::ostreambuf_iterator<char>(std::cout), std::cout, ' ', CytosineCount);
+	std::cout << "\n";
+
+	std::cout << "* Guanine Monomers:  ";
+	auto& g = std::use_facet<std::num_put<char>>(std::cout.getloc());
+	g.put(std::ostreambuf_iterator<char>(std::cout), std::cout, ' ', GuanineCount);
+	std::cout << "\n";
+	
+	std::cout << "* Thymine Monomers:  ";
+	auto& t = std::use_facet<std::num_put<char>>(std::cout.getloc());
+	t.put(std::ostreambuf_iterator<char>(std::cout), std::cout, ' ', ThymineCount);
+	std::cout << "\n";
+	
+	std::cout << "* Uracil Monomers:   ";
+	auto& u = std::use_facet<std::num_put<char>>(std::cout.getloc());
+	t.put(std::ostreambuf_iterator<char>(std::cout), std::cout, ' ', UracilCount);
+	std::cout << "\n";
+	
+	std::cout << "*\n";
 	std::cout << "*\n";
 	std::cout << "* > Elapsed time: " << std::chrono::duration<double, std::milli>(ElapsedTime).count() << "ms\n";
 	std::cout << "*\n";

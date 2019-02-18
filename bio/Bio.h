@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <stdint.h>
 #include <cmath>
 #include <ctime>
 
@@ -13,6 +14,8 @@
 #include <functional>
 #include <iomanip>
 #include <iostream>
+#include <iterator>
+#include <locale>
 #include <memory>
 #include <ratio>
 #include <sstream>
